@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frauddetection-deployment
+  namespace: frauddetection
+  labels:
+    app: frauddetection-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frauddetection-api
+  template:
+    metadata:
+      labels:
+        app: frauddetection-api
+    spec:
+      containers:
+      - name: frauddetection-container
+        image: frauddetection:latest
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          requests:
+            memory: "150Mi"
+            cpu: "250m"
+          limits:
+            memory: "300Mi"
+            cpu: "500m"

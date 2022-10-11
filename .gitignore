@@ -3,6 +3,6 @@ __pycache__/
 .DS_Store
 model-training/*
 !model-training/fraud-detection.ipynb
-deployment/
+deployment/__pycache__/
 load-test/
 venv/
